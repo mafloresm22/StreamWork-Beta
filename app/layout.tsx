@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -28,7 +29,9 @@ export default function RootLayout({
       lang="en"
       className={`${roboto.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-background">{children}</body>
+      <ClerkProvider>
+        <body className="min-h-full flex flex-col bg-background">{children}</body>
+      </ClerkProvider>
     </html>
   );
 }
