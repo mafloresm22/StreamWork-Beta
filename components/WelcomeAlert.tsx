@@ -23,20 +23,20 @@ export default function WelcomeAlert() {
                 sessionStorage.setItem(greetedKey, 'true');
 
                 const isDark = document.documentElement.classList.contains('dark');
-                
+
                 Swal.fire({
                     title: `¡Bienvenido, ${user.firstName || user.username || 'Usuario'}!`,
                     text: 'Has iniciado sesión correctamente en StreamWork.',
                     icon: 'success',
                     confirmButtonText: '¡Comenzar!',
-                    confirmButtonColor: '#f97316', // Naranja
-                    background: isDark ? '#1e293b' : '#ffffff',
-                    color: isDark ? '#f8fafc' : '#0f172a',
+                    confirmButtonColor: '#f97316',
+                    background: '#f8fafc',
+                    color: '#0f172a',
                     iconColor: '#f97316',
                     timer: 4000,
                     timerProgressBar: true,
                     customClass: {
-                        popup: 'rounded-2xl border border-slate-200/10 shadow-2xl',
+                        popup: 'rounded-2xl border border-slate-200 shadow-2xl',
                         title: 'font-semibold text-xl',
                         confirmButton: 'px-6 py-2.5 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95'
                     },
