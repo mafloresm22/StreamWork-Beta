@@ -3,10 +3,28 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { sidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils';
-
+import { useUser } from '@clerk/nextjs';
 
 const Sidebar = () => {
     const pathname = usePathname();
+    const { user } = useUser();
+
+    const getInitials = (firstName?: string | null, lastName?: string | null) => {
+        if (firstName && lastName) {
+            return `${firstName[0]}${lastName[0]}`.toUpperCase();
+        }
+        if (firstName) {
+            return firstName.substring(0, 2).toUpperCase();
+        }
+        if (lastName) {
+            return lastName.substring(0, 2).toUpperCase();
+        }
+        return 'U';
+    };
+
+    const initials = getInitials(user?.firstName, user?.lastName);
+    const fullName = user?.fullName || (user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : '') || 'Cargando...';
+    const username = user?.username || user?.primaryEmailAddress?.emailAddress || 'usuario';
 
     return (
         <section className='sticky left-0 top-0 flex h-screen w-fit flex-col justify-start gap-6 border-r border-slate-200/60 bg-white/85 backdrop-blur-md px-5 pb-5 pt-2.5 text-slate-800 shadow-[1px_0_10px_rgba(0,0,0,0.015)] max-sm:hidden lg:w-64'>
@@ -15,12 +33,16 @@ const Sidebar = () => {
                 <div className='flex items-center gap-3 overflow-hidden'>
                     {/* Avatar */}
                     <div className='relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-orange-100 items-center justify-center border border-orange-200/60 shadow-inner group-hover/profile:scale-105 transition-transform duration-300'>
-                        <span className='text-sm font-semibold text-orange-700 select-none'>MF</span>
+                        {user?.imageUrl ? (
+                            <img src={user.imageUrl} alt={fullName} className='h-full w-full object-cover' />
+                        ) : (
+                            <span className='text-sm font-semibold text-orange-700 select-none'>{initials}</span>
+                        )}
                     </div>
                     {/* Details */}
                     <div className='flex flex-col min-w-0'>
-                        <p className='text-xs font-semibold text-slate-900 truncate leading-tight'>Marcos Flores</p>
-                        <p className='text-[10px] font-medium text-slate-500 truncate mt-0.5 leading-none'>mafloresm22</p>
+                        <p className='text-xs font-semibold text-slate-900 truncate leading-tight'>{fullName}</p>
+                        <p className='text-[10px] font-medium text-slate-500 truncate mt-0.5 leading-none'>{username}</p>
                     </div>
                 </div>
                 {/* Settings action */}

@@ -7,8 +7,8 @@ const potectedRoutes = createRouteMatcher([
     "/personal-room",
     "/meeting(.*)"
 ])
-export default clerkMiddleware((auth, req) => {
-    if (potectedRoutes(req)) auth.protect();
+export default clerkMiddleware(async (auth, req) => {
+    if (potectedRoutes(req)) await auth.protect();
 })
 
 export const config = {

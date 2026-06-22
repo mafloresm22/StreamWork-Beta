@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import WelcomeAlert from "@/components/WelcomeAlert";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -30,7 +31,10 @@ export default function RootLayout({
       className={`${roboto.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <ClerkProvider>
-        <body className="min-h-full flex flex-col bg-background">{children}</body>
+        <body className="min-h-full flex flex-col bg-background">
+          <WelcomeAlert />
+          {children}
+        </body>
       </ClerkProvider>
     </html>
   );
